@@ -27,6 +27,13 @@ class User(AbstractUser):
         )
         return age
 
+    @property
+    def token(self):
+        has_token = hasattr(self, 'auth_token')
+        if has_token:
+            return self.auth_token.key
+        return ""
+
 
 class UserPrivacySettings(models.Model):
     user = models.OneToOneField(

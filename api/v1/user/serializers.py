@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.utils.translation import gettext as _
 
 from rest_framework import serializers
@@ -70,3 +71,28 @@ class UserCreateSerializer(serializers.ModelSerializer):
         instance.set_password(password)
         instance.save(update_fields=["password"])
         return instance
+
+
+class UserAuthenticationSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def __init__(self, *args, **kwargs):
+        super(UserAuthenticationSerializer, self).__init__(*args, **kwargs)
+        self.token = None
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        username = attrs.get("username")
+        password = attrs.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if not user:
+            raise serializers.ValidationError(
+                _("Incorrect username or password")
+            )
+
+        self.token = user.token
+
+        return attrs
