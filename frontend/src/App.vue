@@ -10,6 +10,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 html {
   height: 100%;
 }
@@ -17,6 +18,9 @@ body {
   background-image: url("./assets/main_background.jpg");
   background-repeat: no-repeat;
   animation: scroll linear 45s infinite;
+}
+* {
+  font-family: "Montserrat";
 }
 @keyframes scroll {
   0% {
