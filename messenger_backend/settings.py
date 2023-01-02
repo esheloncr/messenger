@@ -28,12 +28,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,3 +131,6 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379'
     }
 }
+
+# Cors headers
+CORS_ALLOW_ALL_ORIGINS = True
