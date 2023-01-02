@@ -1,33 +1,41 @@
 <template>
-  <div class="container">
-    <h1>Sign in</h1>
-    <div class="controls">
-      <div class="username-input-wrapper">
-        <label for="username">Username</label>
-        <input type="text" name="username" v-model="username" class="username__input">
+  <PushNotification v-if="hasErrors" title="Invalid credentials" body="Invalid username or password"/>
+  <form @submit="authenticate">
+    <div class="container">
+      <h1>Sign in</h1>
+      <div class="controls">
+        <div class="username-input-wrapper">
+          <label for="username">Username</label>
+          <input type="text" name="username" v-model="username" class="username__input" :class="{ 'has-errors': hasErrors }">
+        </div>
+        <div class="password-input-wrapper">
+          <label for="password">Password</label>
+          <input type="password" name="password" v-model="password" class="password__input" :class="{ 'has-errors': hasErrors }">
+        </div>
+        <input type="submit" value="Sign in" class="authentication__submit">
       </div>
-      <div class="password-input-wrapper">
-        <label for="password">Password</label>
-        <input type="password" name="password" v-model="password" class="password__input">
-      </div>
-      <input type="submit" value="Sign in" @click="authenticate" class="authentication__submit">
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
-
+import PushNotification from "@/components/utils/PushNotification.vue";
 export default {
   name: "LoginForm",
   data() {
     return {
       username: '',
       password: '',
-      token: ''
+      token: '',
+      hasErrors: false
     }
   },
+  components: {
+    PushNotification
+  },
   methods: {
-    authenticate() {
+    authenticate(event) {
+      event.preventDefault();
       const username = this.username;
       const password = this.password;
       const loginUri = 'http://localhost:8000/api/v1/users/login/';
@@ -41,6 +49,15 @@ export default {
             this.token = response.data.token;
             localStorage.setItem('token', this.token);
             this.$router.push('/');
+          })
+          .catch((error) => {
+            const statusCode = error.response.status;
+            if (statusCode === 400) {
+              this.hasErrors = true;
+              setTimeout(() => {
+                this.hasErrors = false;
+              }, 3000);
+            }
           })
     }
   },
@@ -82,5 +99,9 @@ export default {
   }
   .authentication__submit:hover {
     cursor: pointer;
+  }
+  .username-input-wrapper > .username__input.has-errors, .password-input-wrapper > .password__input.has-errors {
+    border-color: red;
+    border-width: 1px;
   }
 </style>
