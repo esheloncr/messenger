@@ -1,11 +1,20 @@
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import admin
+from django.utils.html import format_html
 
-from user.models import User, UserPrivacySettings
+from user.models import User, UserPrivacySettings, UserProfileImage
 
 
 class UserAdmin(BaseUserAdmin):
-    list_display = BaseUserAdmin.list_display + ("age", "token")
+
+    class UserProfileImagesInline(admin.StackedInline):
+        model = UserProfileImage
+        extra = 1
+
+    list_display = BaseUserAdmin.list_display + ("age", "token", "avatar")
+    inlines = (
+        UserProfileImagesInline,
+    )
 
     def has_add_permission(self, request):
         return False
@@ -13,6 +22,9 @@ class UserAdmin(BaseUserAdmin):
     def token(self, obj):
         # TODO: Dev field, remove on release
         return obj.auth_token.key
+
+    def avatar(self, obj):
+        return format_html(f"<a href={obj.avatar}>{obj.avatar}</a>")
 
 
 class UserPrivacySettingsAdmin(admin.ModelAdmin):
