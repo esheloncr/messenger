@@ -6,3 +6,6 @@ db.sqlite3
 
 # IDE enviroment
 .idea
+
+# Python cache
+**/__pycache__/
