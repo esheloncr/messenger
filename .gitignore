@@ -1,0 +1,8 @@
+# Virtual enviroment
+venv
+
+# SQLite database file
+db.sqlite3
+
+# IDE enviroment
+.idea
