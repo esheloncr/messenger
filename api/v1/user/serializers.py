@@ -18,7 +18,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
             "last_name",
             "username",
             "age",
-            "avatar"
+            "avatar",
+            "birth_date"
         )
 
 
@@ -31,7 +32,8 @@ class UserListSerializer(serializers.ModelSerializer):
         fields = (
             "full_name",
             "age",
-            "avatar_resized"
+            "avatar_resized",
+            "birth_date"
         )
 
     def get_full_name(self, obj):
@@ -39,8 +41,6 @@ class UserListSerializer(serializers.ModelSerializer):
 
     def get_avatar_resized(self, obj):
         avatar = obj.images.filter(is_avatar=True)
-        if not avatar.exists():
-            return ""
         avatar_obj = avatar.first().image
         image = get_thumbnail(avatar_obj, '100x100', crop='center', quality=99)
         return image.url

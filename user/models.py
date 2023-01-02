@@ -9,6 +9,7 @@ from .utils import get_image_path
 
 
 class User(AbstractUser):
+    USER_AVATAR_PLACEHOLDER_PATH = 'user/static/img/user_photo_placeholder.png'
     is_banned = models.BooleanField(
         default=False,
         verbose_name=l_("Is user banned")
@@ -40,9 +41,16 @@ class User(AbstractUser):
     @cached_property
     def avatar(self):
         images = self.images.filter(is_avatar=True)
-        if not images.exists():
-            return ""
         return images.first().image.url
+
+    def save(self, *args, **kwargs):
+        if not self.images.filter(is_avatar=True).exists():
+            from django.core.files.images import ImageFile
+            self.images.create(
+                is_avatar=True,
+                image=ImageFile(open(self.USER_AVATAR_PLACEHOLDER_PATH, 'rb'))
+            )
+        return super(User, self).save(*args, **kwargs)
 
 
 class UserPrivacySettings(models.Model):
