@@ -47,4 +47,14 @@ body {
   color: white;
   text-decoration: none;
 }
+.navbar-container {
+  display: flex;
+  gap: 10px;
+  margin: 0 auto;
+  justify-content: center;
+}
+.sign-in__link, .sign-up__link {
+  text-decoration: none;
+  color: white;
+}
 </style>
