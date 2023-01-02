@@ -4,6 +4,8 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from sorl.thumbnail import get_thumbnail
+
 from user.models import User
 
 
@@ -15,22 +17,33 @@ class UserDetailSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "username",
-            "age"
+            "age",
+            "avatar"
         )
 
 
 class UserListSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
+    avatar_resized = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
             "full_name",
-            "age"
+            "age",
+            "avatar_resized"
         )
 
     def get_full_name(self, obj):
         return obj.get_full_name()
+
+    def get_avatar_resized(self, obj):
+        avatar = obj.images.filter(is_avatar=True)
+        if not avatar.exists():
+            return ""
+        avatar_obj = avatar.first().image
+        image = get_thumbnail(avatar_obj, '100x100', crop='center', quality=99)
+        return image.url
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
