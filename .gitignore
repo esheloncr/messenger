@@ -12,3 +12,6 @@ db.sqlite3
 
 # Media folder
 media
+
+# Node modules
+**/node_modules/
