@@ -1,9 +1,13 @@
+from django.http import Http404
+
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, GenericAPIView
 from rest_framework.response import Response
 
 from user.models import User
 
-from .serializers import UserListSerializer, UserDetailSerializer, UserCreateSerializer, UserAuthenticationSerializer
+from .serializers import UserListSerializer, UserDetailSerializer, UserCreateSerializer, UserAuthenticationSerializer, \
+    UserSelfShortSerializer
 
 
 class UserDetailView(RetrieveAPIView):
@@ -32,3 +36,16 @@ class UserAuthenticateView(GenericAPIView):
             "token": serializer.token
         }
         return Response(data)
+
+
+class UserSelfShortDetailView(GenericAPIView):
+    serializer_class = UserSelfShortSerializer
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            raise Http404
+
+        serializer = self.get_serializer(instance=user)
+        return Response(serializer.data)

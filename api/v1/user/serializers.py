@@ -6,6 +6,7 @@ from rest_framework.authtoken.models import Token
 
 from sorl.thumbnail import get_thumbnail
 
+from .mixins import ResizedAvatarMixin
 from user.models import User
 
 
@@ -23,9 +24,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
         )
 
 
-class UserListSerializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
     full_name = serializers.SerializerMethodField()
-    avatar_resized = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -38,12 +38,6 @@ class UserListSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         return obj.get_full_name()
-
-    def get_avatar_resized(self, obj):
-        avatar = obj.images.filter(is_avatar=True)
-        avatar_obj = avatar.first().image
-        image = get_thumbnail(avatar_obj, '100x100', crop='center', quality=99)
-        return image.url
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -109,3 +103,15 @@ class UserAuthenticationSerializer(serializers.Serializer):
         self.token = user.token
 
         return attrs
+
+
+class UserSelfShortSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    crop_size = '50x50'
+
+    class Meta:
+        model = User
+        fields = (
+            "pk",
+            "avatar_resized",
+            "username"
+        )

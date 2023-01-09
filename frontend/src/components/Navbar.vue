@@ -1,14 +1,20 @@
 <template>
   <div class="navbar-container">
-    <router-link to="/" class="home-page__link">Home page</router-link>
-    <router-link to="/login" class="sign-in__link" v-if="isAllowedToShowLink('login')">Sign in</router-link>
-    <router-link to="/registration" class="sign-up__link" v-if="isAllowedToShowLink('registration')">Sign up</router-link>
-    <a class="logout__button" @click="logout" v-if="isAuthenticated()">Logout</a>
+    <div class="nav-buttons" :class="{ 'centered': this.isAuthenticated() }">
+      <router-link to="/" class="home-page__link">Home page</router-link>
+      <router-link to="/login" class="sign-in__link" v-if="isAllowedToShowAuthenticationLink('login')">Sign in</router-link>
+      <router-link to="/registration" class="sign-up__link" v-if="isAllowedToShowAuthenticationLink('registration')">Sign up</router-link>
+      <a class="logout__button" @click="logout" v-if="isAuthenticated()">Logout</a>
+    </div>
+    <div class="user-info-wrapper" v-if="this.isAuthenticated()">
+      <UserNavbarMenu/>
+    </div>
   </div>
 </template>
 
 <script>
 import {useRoute} from "vue-router";
+import UserNavbarMenu from "@/components/user/UserNavbarMenu";
 
 const routes = {
   login: 'login',
@@ -18,8 +24,11 @@ const routes = {
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Navbar",
+  components: {
+    UserNavbarMenu
+  },
   methods: {
-    isAllowedToShowLink(route){
+    isAllowedToShowAuthenticationLink(route){
       const routeName = routes[route];
       const currentRoute = useRoute().name;
       return !(routeName === currentRoute) && !this.isAuthenticated();
@@ -43,5 +52,11 @@ export default {
 <style scoped>
 .logout__button:hover {
   cursor: pointer;
+}
+.nav-buttons.centered, .user-info-wrapper {
+  margin-left: auto;
+}
+.nav-buttons.centered .home-page__link {
+  margin-left: 150px;
 }
 </style>
