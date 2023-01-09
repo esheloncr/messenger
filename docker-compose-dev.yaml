@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  web:
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ${SCRIPT_DIR}:/messenger
+    env_file:
+      - ./.env
+    entrypoint: "sh entrypoint.sh"
+    container_name: messenger_backend
+
+  frontend:
+    image: node:15.12.0
+    container_name: messenger_frontend
+    volumes:
+      - ${SCRIPT_DIR}/frontend:/frontend
+    working_dir: /frontend/
+    command: bash -c "npm install && npm run serve"
+    ports:
+      - "8080:8080"
