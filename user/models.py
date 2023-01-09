@@ -19,6 +19,8 @@ class User(AbstractUser):
         verbose_name=l_("Birth date")
     )
 
+    REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['birth_date']
+
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         UserPrivacySettings.objects.get_or_create(user=self)
@@ -44,7 +46,7 @@ class User(AbstractUser):
         return images.first().image.url
 
     def save(self, *args, **kwargs):
-        if not self.images.filter(is_avatar=True).exists():
+        if self.pk and not self.images.filter(is_avatar=True).exists():
             from django.core.files.images import ImageFile
             self.images.create(
                 is_avatar=True,
