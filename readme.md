@@ -11,6 +11,9 @@ How to use (without docker):
 3. Install all requirements by `pip install -r requirements.txt`
 4. Apply migrations: `python manage.py migrate`
 5. Run debug server `python manage.py runserver`
+6. Change directory to frontend/
+7. Run `npm install`
+8. After dependencies installation run `npm run serve`
 
 Docker usage:
 1. Create .env file based on .env_example.
