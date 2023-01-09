@@ -6,4 +6,4 @@ def get_image_path(instance, filename: str) -> str:
     :param filename: Name of file
     :return: Path for saving user images
     """
-    return f'users/{instance.user.pk}/profile_images/{filename}'
+    return f'users/profile_images/{instance.user.pk}/{filename}'

@@ -13,6 +13,9 @@ db.sqlite3
 # Media folder
 media
 
+# Static folder
+static
+
 # Node modules
 **/node_modules/
 
