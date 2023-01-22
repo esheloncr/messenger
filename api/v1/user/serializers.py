@@ -4,8 +4,6 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from sorl.thumbnail import get_thumbnail
-
 from .mixins import ResizedAvatarMixin
 from user.models import User
 
@@ -71,7 +69,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             )
         attrs.pop("password2")
         return attrs
-    
+
     def create(self, validated_data):
         password = validated_data.pop("password")
         instance = super(UserCreateSerializer, self).create(validated_data)

@@ -21,15 +21,11 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['birth_date']
 
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        UserPrivacySettings.objects.get_or_create(user=self)
-
     @property
     def age(self):
         today = datetime.date.today()
         age = today.year - self.birth_date.year - (
-                (today.month, today.day) < (self.birth_date.month, self.birth_date.day)
+            (today.month, today.day) < (self.birth_date.month, self.birth_date.day) # noqa
         )
         return age
 

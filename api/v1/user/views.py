@@ -1,13 +1,23 @@
 from django.http import Http404
 
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, GenericAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    CreateAPIView,
+    GenericAPIView
+)
 from rest_framework.response import Response
 
 from user.models import User
 
-from .serializers import UserListSerializer, UserDetailSerializer, UserCreateSerializer, UserAuthenticationSerializer, \
+from .serializers import (
+    UserListSerializer,
+    UserDetailSerializer,
+    UserCreateSerializer,
+    UserAuthenticationSerializer,
     UserSelfShortSerializer
+)
 
 
 class UserDetailView(RetrieveAPIView):

@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import UserDetailView, UserListView, UserCreateView, UserAuthenticateView, UserSelfShortDetailView
+from .views import (
+    UserDetailView,
+    UserListView,
+    UserCreateView,
+    UserAuthenticateView,
+    UserSelfShortDetailView,
+)
 
 
 urlpatterns = [
