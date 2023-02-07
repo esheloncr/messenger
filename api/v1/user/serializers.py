@@ -8,7 +8,8 @@ from .mixins import ResizedAvatarMixin
 from user.models import User
 
 
-class UserDetailSerializer(serializers.ModelSerializer):
+class UserDetailSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    crop_size = '150x150'
 
     class Meta:
         model = User
@@ -17,7 +18,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
             "last_name",
             "username",
             "age",
-            "avatar",
+            "avatar_resized",
             "birth_date"
         )
 

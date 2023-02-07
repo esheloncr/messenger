@@ -7,7 +7,7 @@
         <span>{{ firstName }} {{ lastName }}</span>
       </div>
       <div class="birth-date">
-        <span>{{ birthDate }}</span>
+        <span>{{ this.gettext("Birthdate") }}: {{ birthDate }} ({{ this.gettext("Age") }}: {{ age }})</span>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
             this.lastName = data.last_name;
             this.birthDate = data.birth_date;
             this.age = data.age;
-            this.avatar = data.avatar;
+            this.avatar = data.avatar_resized;
           })
     }
   },
@@ -67,5 +67,11 @@ export default {
     justify-content: center;
     margin-top: 50px;
     margin-left: 130px;
+  }
+  .content-wrapper .avatar {
+    border-radius: 50px;
+  }
+  .content-wrapper .full-name {
+    text-transform: capitalize;
   }
 </style>
