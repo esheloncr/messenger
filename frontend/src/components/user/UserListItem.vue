@@ -8,22 +8,16 @@
         <span>{{ fullName }}</span>
       </div>
       <div class="age-wrapper">
-        <span>Birth date: {{ formatDate(birthDate) }} (age: {{ age }})</span>
+        <span>Birth date: {{ this.formatDate(birthDate) }} (age: {{ age }})</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import moment from 'moment';
 export default {
   name: "UserListItem",
   props: ['fullName', 'age', 'avatar', 'birthDate'],
-  methods: {
-    formatDate(date){
-      return moment(date).format('DD-MM-YYYY');
-    }
-  }
 }
 </script>
 
@@ -42,5 +36,8 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+  .user-info-wrapper .name-wrapper {
+    text-transform: capitalize;
   }
 </style>

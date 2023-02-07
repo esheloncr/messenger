@@ -9,7 +9,7 @@ from user.models import User
 
 
 class UserDetailSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
-    crop_size = '150x150'
+    crop_size = "150x150"
 
     class Meta:
         model = User
@@ -105,7 +105,7 @@ class UserAuthenticationSerializer(serializers.Serializer):
 
 
 class UserSelfShortSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
-    crop_size = '50x50'
+    crop_size = "50x50"
 
     class Meta:
         model = User
@@ -120,15 +120,15 @@ class UserSelfSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
     DETAIL_SERIALIZER = UserDetailSerializer
     SHORT_SERIALIZER = UserSelfShortSerializer
 
-    crop_size = '50x50'
+    crop_size = "50x50"
     full = serializers.SerializerMethodField()
     short = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
-            'full',
-            'short'
+            "full",
+            "short"
         )
 
     def get_full(self, obj):
@@ -138,3 +138,17 @@ class UserSelfSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
     def get_short(self, obj):
         serializer = self.SHORT_SERIALIZER(instance=obj)
         return serializer.data
+
+
+class UserEditSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=150, required=False)
+    last_name = serializers.CharField(max_length=150, required=False)
+    birth_date = serializers.DateField(required=False)
+    avatar = serializers.FileField(required=False)
+
+    def update(self, instance, validated_data):
+        data = self.validated_data
+        avatar = data.pop("avatar", None)
+        if avatar:
+            instance.change_avatar(avatar)
+        return instance
