@@ -20,7 +20,7 @@ export default {
             headers: headers
           })
           .then((response) => {
-            const data = response.data;
+            const data = response.data.short;
             this.username = data.username;
             this.userAvatar = data.avatar_resized;
           })

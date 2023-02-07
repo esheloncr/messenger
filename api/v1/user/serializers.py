@@ -113,3 +113,27 @@ class UserSelfShortSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
             "avatar_resized",
             "username"
         )
+
+
+class UserSelfSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    DETAIL_SERIALIZER = UserDetailSerializer
+    SHORT_SERIALIZER = UserSelfShortSerializer
+
+    crop_size = '50x50'
+    full = serializers.SerializerMethodField()
+    short = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            'full',
+            'short'
+        )
+
+    def get_full(self, obj):
+        serializer = self.DETAIL_SERIALIZER(instance=obj)
+        return serializer.data
+
+    def get_short(self, obj):
+        serializer = self.SHORT_SERIALIZER(instance=obj)
+        return serializer.data

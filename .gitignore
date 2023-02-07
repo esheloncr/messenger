@@ -21,3 +21,6 @@ static
 
 # Enviroment file
 .env
+
+# .mo translation files
+*.mo

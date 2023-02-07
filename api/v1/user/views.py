@@ -16,7 +16,7 @@ from .serializers import (
     UserDetailSerializer,
     UserCreateSerializer,
     UserAuthenticationSerializer,
-    UserSelfShortSerializer
+    UserSelfSerializer,
 )
 
 
@@ -48,8 +48,8 @@ class UserAuthenticateView(GenericAPIView):
         return Response(data)
 
 
-class UserSelfShortDetailView(GenericAPIView):
-    serializer_class = UserSelfShortSerializer
+class UserSelfDetailView(GenericAPIView):
+    serializer_class = UserSelfSerializer
     authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
