@@ -1,4 +1,7 @@
-from django.core.management.commands.makemessages import Command as DefaultMakeMessagesCommand
+# flake8: noqa
+from django.core.management.commands.makemessages import (
+    Command as DefaultMakeMessagesCommand,
+)
 from django.core.management.commands.makemessages import *
 
 
