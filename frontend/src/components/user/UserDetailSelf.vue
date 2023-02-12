@@ -3,7 +3,7 @@
   <div class="content-wrapper">
     <div class="image-container">
       <input type="file" class="change-avatar hidden" accept="image/*" ref="changeAvatarBtn">
-      <img :src="`http://localhost:8000${this.avatar}`" alt="user-avatar" class="avatar" @click="this.triggerFileUploader">
+      <img :src="`http://localhost:8000${this.avatar}`" alt="user-avatar" class="avatar" @click="triggerFileUploader" :title="this.gettext('Upload avatar')">
     </div>
     <div class="info-wrapper">
       <div class="full-name">
@@ -105,6 +105,9 @@ export default {
   }
   .content-wrapper .avatar {
     border-radius: 50px;
+  }
+  .content-wrapper .avatar:hover {
+    cursor: pointer;
   }
   .content-wrapper .full-name {
     text-transform: capitalize;

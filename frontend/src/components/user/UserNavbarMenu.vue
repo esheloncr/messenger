@@ -1,6 +1,6 @@
 <template>
 <div class="user-navbar-info-wrapper">
-  <img :src="`http://localhost:8000${userAvatar}`" alt="user-avatar" class="user-navbar__image">
+  <img :src="`http://localhost:8000${userAvatar}`" alt="user-avatar" class="user-navbar__image" id="navbar__avatar">
   <router-link to="/users/me" class="user-navbar-username">{{ username }}</router-link>
 </div>
 </template>
