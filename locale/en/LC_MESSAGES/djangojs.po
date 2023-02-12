@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-07 16:42+0000\n"
+"POT-Creation-Date: 2023-02-12 16:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,3 +17,69 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: frontend/src/components/Navbar.vue:4
+msgid "Home page"
+msgstr ""
+
+#: frontend/src/components/Navbar.vue:5
+msgid "Sign in"
+msgstr ""
+
+#: frontend/src/components/Navbar.vue:6
+msgid "Sign up"
+msgstr ""
+
+#: frontend/src/components/Navbar.vue:7
+msgid "Logout"
+msgstr ""
+
+#: frontend/src/components/forms/LoginForm.vue:8
+#: frontend/src/components/forms/RegistrationForm.vue:9
+msgid "Username"
+msgstr ""
+
+#: frontend/src/components/forms/LoginForm.vue:12
+#: frontend/src/components/forms/RegistrationForm.vue:25
+msgid "Password"
+msgstr ""
+
+#: frontend/src/components/forms/RegistrationForm.vue:13
+msgid "First name"
+msgstr ""
+
+#: frontend/src/components/forms/RegistrationForm.vue:17
+msgid "Last name"
+msgstr ""
+
+#: frontend/src/components/forms/RegistrationForm.vue:21
+msgid "Date of birth"
+msgstr ""
+
+#: frontend/src/components/forms/RegistrationForm.vue:29
+msgid "Repeat password"
+msgstr ""
+
+#: frontend/src/components/user/UserDetail.vue:2
+msgid "User Detail"
+msgstr ""
+
+#: frontend/src/components/user/UserDetailSelf.vue:13
+msgid "Birthdate"
+msgstr ""
+
+#: frontend/src/components/user/UserDetailSelf.vue:13
+msgid "Age"
+msgstr ""
+
+#: frontend/src/components/user/UserList.vue:2
+msgid "User List"
+msgstr ""
+
+#: frontend/src/components/user/UserListItem.vue:11
+msgid "Birth date"
+msgstr ""
+
+#: frontend/src/components/user/UserListItem.vue:11
+msgid "age"
+msgstr ""

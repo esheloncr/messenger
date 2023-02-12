@@ -1,5 +1,5 @@
 <template>
-<h1>User Detail</h1>
+<h1>{{ this.gettext("User Detail") }}</h1>
 </template>
 
 <script>

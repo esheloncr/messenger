@@ -1,10 +1,10 @@
 <template>
   <div class="navbar-container">
     <div class="nav-buttons" :class="{ 'centered': this.isAuthenticated() }">
-      <router-link to="/" class="home-page__link">Home page</router-link>
-      <router-link to="/login" class="sign-in__link" v-if="isAllowedToShowAuthenticationLink('login')">Sign in</router-link>
-      <router-link to="/registration" class="sign-up__link" v-if="isAllowedToShowAuthenticationLink('registration')">Sign up</router-link>
-      <a class="logout__button" @click="logout" v-if="isAuthenticated()">Logout</a>
+      <router-link to="/" class="home-page__link">{{ this.gettext("Home page") }}</router-link>
+      <router-link to="/login" class="sign-in__link" v-if="isAllowedToShowAuthenticationLink('login')">{{ this.gettext("Sign in") }}</router-link>
+      <router-link to="/registration" class="sign-up__link" v-if="isAllowedToShowAuthenticationLink('registration')">{{ this.gettext("Sign up") }}</router-link>
+      <a class="logout__button" @click="logout" v-if="isAuthenticated()">{{ this.gettext("Logout") }}</a>
     </div>
     <div class="user-info-wrapper" v-if="this.isAuthenticated()">
       <UserNavbarMenu/>

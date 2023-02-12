@@ -1,5 +1,5 @@
 <template>
-  <h1>User List</h1>
+  <h1>{{ this.gettext("User List") }}</h1>
   <div class="container">
     <UserListItem v-for="item in userList" :key="item.age" :fullName="item.fullName" :age="item.age" :avatar="item.avatar" :birthDate="item.birthDate"/>
   </div>

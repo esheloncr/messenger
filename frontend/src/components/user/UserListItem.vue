@@ -8,7 +8,7 @@
         <span>{{ fullName }}</span>
       </div>
       <div class="age-wrapper">
-        <span>Birth date: {{ this.formatDate(birthDate) }} (age: {{ age }})</span>
+        <span>{{ this.gettext("Birth date") }}: {{ this.formatDate(birthDate) }} ({{ this.gettext("age") }}: {{ age }})</span>
       </div>
     </div>
   </div>

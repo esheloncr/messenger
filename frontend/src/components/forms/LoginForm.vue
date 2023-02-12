@@ -5,11 +5,11 @@
       <h1>Sign in</h1>
       <div class="controls">
         <div class="username-input-wrapper">
-          <label for="username">Username</label>
+          <label for="username">{{ this.gettext("Username") }}</label>
           <input type="text" name="username" v-model="username" class="username__input" :class="{ 'has-errors': hasErrors }">
         </div>
         <div class="password-input-wrapper">
-          <label for="password">Password</label>
+          <label for="password">{{ this.gettext("Password") }}</label>
           <input type="password" name="password" v-model="password" class="password__input" :class="{ 'has-errors': hasErrors }">
         </div>
         <input type="submit" value="Sign in" class="authentication__submit">
