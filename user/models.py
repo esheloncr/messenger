@@ -5,6 +5,8 @@ from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as l_
 
+from sorl.thumbnail import get_thumbnail
+
 from .utils import get_image_path
 
 
@@ -21,15 +23,11 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['birth_date']
 
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        UserPrivacySettings.objects.get_or_create(user=self)
-
     @property
     def age(self):
         today = datetime.date.today()
         age = today.year - self.birth_date.year - (
-                (today.month, today.day) < (self.birth_date.month, self.birth_date.day)
+            (today.month, today.day) < (self.birth_date.month, self.birth_date.day) # noqa
         )
         return age
 
@@ -44,6 +42,32 @@ class User(AbstractUser):
     def avatar(self):
         images = self.images.filter(is_avatar=True)
         return images.first().image.url
+
+    def unset_avatar(self):
+        """
+        Change current avatar to non-avatar picture.
+        """
+        image_obj = self.images.filter(is_avatar=True).first()
+        if image_obj:
+            image_obj.is_avatar = False
+            image_obj.save(update_fields=["is_avatar"])
+
+    def change_avatar(self, avatar):
+        """
+        Create an image object and set it as avatar.
+        """
+        image_data = {
+            "image": avatar,
+            "is_avatar": True
+        }
+        self.unset_avatar()
+        self.images.create(**image_data)
+
+    def get_avatar_resized(self, crop_size="150x150"):
+        avatar = self.images.filter(is_avatar=True)
+        avatar_obj = avatar.first().image
+        image = get_thumbnail(avatar_obj, crop_size, crop='center', quality=99)
+        return image.url
 
     def save(self, *args, **kwargs):
         if self.pk and not self.images.filter(is_avatar=True).exists():

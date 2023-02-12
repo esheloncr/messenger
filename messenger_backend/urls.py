@@ -3,10 +3,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
+from django.views.i18n import JavaScriptCatalog
 from django.urls import path, include
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('jsi18n/', JavaScriptCatalog.as_view()),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.v1.urls'))
 ]

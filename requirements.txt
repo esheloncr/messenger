@@ -5,3 +5,4 @@ Pillow==9.4.0
 sorl-thumbnail==12.9.0
 redis==4.4.0
 django-cors-headers==3.13.0
+flake8==6.0.0

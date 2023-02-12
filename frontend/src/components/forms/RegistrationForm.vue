@@ -1,35 +1,35 @@
 <template>
-  <PushNotification v-if="hasErrors" title="Invalid registration data" body="Invalid data"/>
+  <PushNotification v-if="hasErrors" :title="this.gettext('Invalid registration data')" :body="this.gettext('Invalid data')"/>
   <!-- TODO: Add fields validation and error-handler -->
   <form @submit="register">
     <div class="container">
       <h1>Sign up</h1>
       <div class="controls">
         <div class="field username-input-wrapper">
-          <label for="username">Username</label>
+          <label for="username">{{ this.gettext("Username") }}</label>
           <input type="text" name="username" v-model="username" class="username__input" :class="{ 'has-errors': hasErrors }" required>
         </div>
         <div class="field first-name-input-wrapper">
-          <label for="first-name">First name</label>
+          <label for="first-name">{{ this.gettext("First name") }}</label>
           <input type="text" name="first-name" v-model="firstName" class="first_name__input" :class="{ 'has-errors': hasErrors }" required>
         </div>
         <div class="field last-name-input-wrapper">
-          <label for="last-name">Last name</label>
+          <label for="last-name">{{ this.gettext("Last name") }}</label>
           <input type="text" name="last-name" v-model="lastName" class="last_name__input" :class="{ 'has-errors': hasErrors }" required>
         </div>
         <div class="field birth-date-input-wrapper">
-          <label for="birth-date">Date of birth</label>
+          <label for="birth-date">{{ this.gettext("Date of birth") }}</label>
           <DatePicker v-model="birthDate" format="yyyy-MM-dd" :start-date="new Date(2000, 0, 1)" required :class="{ 'has-errors': hasErrors }" :enable-time-picker="false"/>
         </div>
         <div class="field password-input-wrapper">
-          <label for="password">Password</label>
+          <label for="password">{{ this.gettext("Password") }}</label>
           <input type="password" name="password" v-model="password" class="password__input" :class="{ 'has-errors': hasErrors }" required>
         </div>
         <div class="field password-input-wrapper">
-          <label for="password2">Repeat password</label>
+          <label for="password2">{{ this.gettext("Repeat password") }}</label>
           <input type="password" name="password2" v-model="password2" class="password__input" :class="{ 'has-errors': hasErrors }" required>
         </div>
-        <input type="submit" value="Sign up" class="authentication__submit">
+        <input type="submit" :value="this.gettext('Sign up')" class="authentication__submit">
       </div>
     </div>
   </form>

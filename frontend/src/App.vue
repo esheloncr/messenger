@@ -46,6 +46,11 @@ body {
   text-align: center;
   color: white;
   margin-top: 60px;
+  padding: 20px;
+}
+a {
+  text-decoration: none;
+  color: white;
 }
 .home-page__link {
   color: white;
@@ -53,9 +58,14 @@ body {
 }
 .navbar-container {
   display: flex;
-  gap: 10px;
   margin: 0 auto;
   justify-content: center;
+  align-items: center;
+}
+.navbar-container .nav-buttons {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 .sign-in__link, .sign-up__link {
   text-decoration: none;

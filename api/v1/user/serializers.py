@@ -4,12 +4,12 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from sorl.thumbnail import get_thumbnail
-
+from .mixins import ResizedAvatarMixin
 from user.models import User
 
 
-class UserDetailSerializer(serializers.ModelSerializer):
+class UserDetailSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    crop_size = "150x150"
 
     class Meta:
         model = User
@@ -18,14 +18,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
             "last_name",
             "username",
             "age",
-            "avatar",
+            "avatar_resized",
             "birth_date"
         )
 
 
-class UserListSerializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
     full_name = serializers.SerializerMethodField()
-    avatar_resized = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -38,12 +37,6 @@ class UserListSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         return obj.get_full_name()
-
-    def get_avatar_resized(self, obj):
-        avatar = obj.images.filter(is_avatar=True)
-        avatar_obj = avatar.first().image
-        image = get_thumbnail(avatar_obj, '100x100', crop='center', quality=99)
-        return image.url
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -77,7 +70,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             )
         attrs.pop("password2")
         return attrs
-    
+
     def create(self, validated_data):
         password = validated_data.pop("password")
         instance = super(UserCreateSerializer, self).create(validated_data)
@@ -109,3 +102,53 @@ class UserAuthenticationSerializer(serializers.Serializer):
         self.token = user.token
 
         return attrs
+
+
+class UserSelfShortSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    crop_size = "50x50"
+
+    class Meta:
+        model = User
+        fields = (
+            "pk",
+            "avatar_resized",
+            "username"
+        )
+
+
+class UserSelfSerializer(serializers.ModelSerializer, ResizedAvatarMixin):
+    DETAIL_SERIALIZER = UserDetailSerializer
+    SHORT_SERIALIZER = UserSelfShortSerializer
+
+    crop_size = "50x50"
+    full = serializers.SerializerMethodField()
+    short = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            "full",
+            "short"
+        )
+
+    def get_full(self, obj):
+        serializer = self.DETAIL_SERIALIZER(instance=obj)
+        return serializer.data
+
+    def get_short(self, obj):
+        serializer = self.SHORT_SERIALIZER(instance=obj)
+        return serializer.data
+
+
+class UserEditSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=150, required=False)
+    last_name = serializers.CharField(max_length=150, required=False)
+    birth_date = serializers.DateField(required=False)
+    avatar = serializers.FileField(required=False)
+
+    def update(self, instance, validated_data):
+        data = self.validated_data
+        avatar = data.pop("avatar", None)
+        if avatar:
+            instance.change_avatar(avatar)
+        return instance

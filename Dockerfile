@@ -4,4 +4,5 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /messenger
 COPY requirements.txt /messenger/
 RUN pip3 install -r requirements.txt
+RUN apk update && apk add gettext
 COPY . /messenger/
